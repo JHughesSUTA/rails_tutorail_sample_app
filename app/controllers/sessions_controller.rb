@@ -14,5 +14,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    log_out   # comes from sessions_helper.rb
+    redirect_to root_url
   end
 end
