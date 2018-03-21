@@ -34,6 +34,7 @@ class User < ApplicationRecord
 
   # returns true if given token matches the digest
   def authenticated?(remember_token)
+    return false if remember_digest.nil?   # fixes bug if user logs out of one browser but is still logged in in another
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 

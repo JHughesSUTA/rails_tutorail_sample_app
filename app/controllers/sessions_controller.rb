@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out   # comes from sessions_helper.rb
+    log_out if logged_in? # comes from sessions_helper.rb, only logs out if currently logged in
     redirect_to root_url
   end
 end
