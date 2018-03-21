@@ -10,6 +10,6 @@ class ActiveSupport::TestCase
 
   # Returns true if a test user is logged in.
   def is_logged_in?
-    !session[:user_id].nil?
+    !session[:user_id].nil?  # can't use current_user helper in test, but we can use session
   end
 end
