@@ -12,7 +12,7 @@ class User < ApplicationRecord
             format: { with: VALID_EMAIL_REGEX },
             uniqueness: { case_sensitive: false }   # validates uniqueness, but case insensitive
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true  #allow nil so int test passes, presence is still validated in 'has_secure_password'
 
 
   # Returns the hash digest of the given string.
