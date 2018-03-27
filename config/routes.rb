@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
   resources :users
+  #gives us get request, url: http://ex.co/account_activation/<token>/edi, edit action, named route: edit_account_activation_url(token)
+  resources :account_activations, only: [:edit]  
 end
