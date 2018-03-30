@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  # option dependent: :destroy arranges for the dependent microposts to be destroyed when the user itself is destroyed.
+  has_many :microposts, dependent: :destroy
+
   # creates an accessible attribute 
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save :downcase_email
