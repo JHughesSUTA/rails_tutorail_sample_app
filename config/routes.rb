@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   #gives us get request, url: http://ex.co/account_activation/<token>/edi, edit action, named route: edit_account_activation_url(token)
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :microposts,          only: [:create, :destroy]
 end
