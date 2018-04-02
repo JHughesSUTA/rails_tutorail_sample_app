@@ -13,6 +13,7 @@ log in, check the micropost pagination, make an invalid submission, make a valid
     log_in_as(@user)
     get root_path
     assert_select 'div.pagination'
+    # assert_select 'input[type=file]'        # 13.4.1
     # Invalid submission
     assert_no_difference 'Micropost.count' do
       post microposts_path, params: { micropost: { content: "" } }
@@ -20,9 +21,11 @@ log in, check the micropost pagination, make an invalid submission, make a valid
     assert_select 'div#error_explanation'
     # Valid submission
     content = "This micropost really ties the room together"
+    # picture = fixture_file_upload('test/fixtures/rails.png', 'image/png') # 13.4.1
     assert_difference 'Micropost.count', 1 do
-      post microposts_path, params: { micropost: { content: content } }
+      post microposts_path, params: { micropost: { content: content } }     # 13.4.1 - add picture: picture
     end
+    # assert assigns(:micropost).picture?       # 13.4.1
     assert_redirected_to root_url
     follow_redirect!
     assert_match content, response.body

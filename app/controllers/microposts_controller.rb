@@ -23,7 +23,7 @@ class MicropostsController < ApplicationController
   private
 
     def micropost_params
-      params.require(:micropost).permit(:content)
+      params.require(:micropost).permit(:content, :picture)   # Allows only content and picture to be edited through web
     end
 
     def correct_user
