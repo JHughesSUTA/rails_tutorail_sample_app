@@ -1,6 +1,14 @@
 class User < ApplicationRecord
   # option dependent: :destroy arranges for the dependent microposts to be destroyed when the user itself is destroyed.
   has_many :microposts, dependent: :destroy
+  has_many :active_relationships, class_name:  "Relationship",
+                                  foreign_key: "follower_id",
+                                  dependent:   :destroy
+  has_many :passive_relationships, class_name:  "Relationship",
+                                   foreign_key: "followed_id",
+                                   dependent:   :destroy
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower  # 'source: :follower' is not required
 
   # creates an accessible attribute 
   attr_accessor :remember_token, :activation_token, :reset_token
@@ -80,6 +88,21 @@ class User < ApplicationRecord
   # See "Following users" for the full implementation.
   def feed
     Micropost.where("user_id = ?", id) # the question mark ensures that id is properly escaped before being included in the underlying SQL query
+  end
+
+  # Follows a user.
+  def follow(other_user)
+    following << other_user
+  end
+
+  # Unfollows a user.
+  def unfollow(other_user)
+    following.delete(other_user)
+  end
+
+  # Returns true if the current user is following the other user.
+  def following?(other_user)
+    following.include?(other_user)
   end
 
 
