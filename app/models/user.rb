@@ -86,13 +86,14 @@ class User < ApplicationRecord
 
   # Defines a proto-feed.
   # See "Following users" for the full implementation.
+  # Returns a user's status feed.
   def feed
-    Micropost.where("user_id = ?", id) # the question mark ensures that id is properly escaped before being included in the underlying SQL query
+    Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
 
   # Follows a user.
   def follow(other_user)
-    following << other_user
+    active_relationships.create(followed_id: other_user.id)
   end
 
   # Unfollows a user.
