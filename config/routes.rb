@@ -8,9 +8,16 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-  resources :users
+  # the member method arranges for the routes to respond to URLs containing the user id (users/1/following)
+  # 'collection' would do the same as member, but would be without the user id in the url
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
   #gives us get request, url: http://ex.co/account_activation/<token>/edi, edit action, named route: edit_account_activation_url(token)
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :microposts,          only: [:create, :destroy]
+  resources :relationships,       only: [:create, :destroy]
 end
